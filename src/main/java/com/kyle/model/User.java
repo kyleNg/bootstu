@@ -1,47 +1,25 @@
-package com.kyle.model;
+package com.kyle;
 
-import java.io.Serializable;
+import javax.validation.Validator;
 
-public class User implements Serializable {
-    private Integer userId;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-    private String userName;
-
-    private String password;
-
-    private String phone;
-
-    private static final long serialVersionUID = 1L;
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
-    }
+@Configuration
+public class ValidatorConfiguration {
+    public ResourceBundleMessageSource getMessageSource() throws Exception {  
+        ResourceBundleMessageSource rbms = new ResourceBundleMessageSource();  
+        rbms.setDefaultEncoding("UTF-8");  
+        rbms.setBasenames("i18n/message");  
+        return rbms;  
+    }  
+  
+    @Bean  
+    public Validator getValidator() throws Exception {  
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();  
+        validator.setValidationMessageSource(getMessageSource());  
+        return validator;  
+    }  
 }
